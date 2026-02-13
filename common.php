@@ -1,5 +1,4 @@
-	<?php
-		ini_set('display_errors', 'On');
+<?php
 		$servername = 'localhost';
 		$username = 'root';
 		$password = '@Passw0rd';
@@ -17,10 +16,9 @@
 		if ($result->num_rows > 0) {
 			// 输出数据
 			while($row = $result->fetch_assoc()) {
-				echo "<a href='index-1.php?category=" . $row["id"] . "'>" . $row["name"] . "</a><a href=before.php?id=" . $row["id"] . ">modify</a><a href=delete.php?id=" . $row["id"] . ">delete</a><br>";
+				echo "<a href='index-1.php?category=" . $row["id"] . "'>" . $row["name"] . "</a>";
 			}
 		} else {
 			echo "0 结果";
 		}
 		echo "<a href='newCategory.php'>newCategory</a>";
-	?>

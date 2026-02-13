@@ -9,30 +9,7 @@
 <body>
 	<div id="left">
 	<?php
-		ini_set('display_errors', 'On');
-		$servername = 'localhost';
-		$username = 'root';
-		$password = '@Passw0rd';
-		$dbname = 'blog';
-		 
-		// 创建连接
-		$conn = new mysqli($servername, $username, $password, $dbname);
-		// Check connection
-		if ($conn->connect_error) {
-			die('连接失败: ' . $conn->connect_error);
-		} 
-		 
-		$sql = 'SELECT * FROM category';
-		$result = $conn->query($sql);
-		if ($result->num_rows > 0) {
-			// 输出数据
-			while($row = $result->fetch_assoc()) {
-				echo "<a href='index-1.php?category=" . $row["id"] . "'>" . $row["name"] . "</a><a href=before.php?id=" . $row["id"] . ">modify</a><a href=delete.php?id=" . $row["id"] . ">delete</a><br>";
-			}
-		} else {
-			echo "0 结果";
-		}
-		echo "<a href='newCategory.php'>newCategory</a>";
+		require "common.php";
 	?>
 	</div>
 	<div id="right">
@@ -54,11 +31,11 @@
 		$row = $result->fetch_row();
 		$conn->close();
 		?>
-	<form action="modify.php?id=<?php echo $_GET["id"]; ?>" method="post">
+	<form action="blogModify.php?id=<?php echo $_GET['id']; ?>" method="post">
 		<input type="hidden" name="id" value="<?php echo $row[0]; ?>">
 		<input type="hidden" name="category" value="<?php echo $row[1]; ?>">
 		title:<input type="text" name="title" value="<?php echo $row[2]; ?>"><br>
-		content:<textarea name="content"><?php echo $row[3] ?></textarea><br>
+		content:<textarea name="content" cols="40" rows="10"><?php echo $row[3] ?></textarea><br>
 		<input type="submit">
 		<input type="reset">
 	</form>
