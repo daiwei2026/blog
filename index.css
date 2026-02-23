@@ -8,8 +8,14 @@
 #right
 {
 	width: 70%;
-	height: 800px;
-	float: left;
+	height: 600px;
+	float:left;
+}
+
+#nav
+{
+  	width: 70%;
+	height: 200px;
 }
 
 #left a
@@ -40,4 +46,12 @@
 #right a:hover
 {
   background-color: #bbbbbb;
+}
+
+#nav a
+{
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
