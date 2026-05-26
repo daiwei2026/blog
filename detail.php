@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 
@@ -59,13 +60,25 @@
 		$sql = 'SELECT * FROM blog WHERE category=' . $category . ' AND id < ' . $id . ' ORDER BY id DESC LIMIT 1';
 		$result = $conn->query($sql);
 		$row = $result->fetch_row();
-		if ($row)
+		if ($row){
 			echo "<a href='detail.php?id=" . $row[0] . "'>previews</a>";
+			echo "<a href='comment.php?blog=" . $row[0] . "'>previews</a>";
+		}
 		$sql = 'SELECT * FROM blog WHERE category=' . $category . ' AND id > ' . $id . ' ORDER BY id ASC LIMIT 1';
 		$result = $conn->query($sql);
 		$row = $result->fetch_row();
 		if ($row)
 			echo "<a href='detail.php?id=" . $row[0] . "'>next</a>";
+		$sql = 'SELECT * FROM comment WHERE blog=' . $row[0];
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			// 输出数据
+			while ($row = $result->fetch_assoc()) {
+				echo "<a href='detail.php?category=" . $category . "&id=" . $row["id"] . "'>" . $row["title"] . "</a><br>";
+			}
+		} else {
+			echo "0 结果";
+		}
 		?>
 	</div>
 </body>

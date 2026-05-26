@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 
@@ -18,7 +17,7 @@
 		<?php
 		if (!$_POST["name"] && !$_POST["password"]) {
 			?>
-			<form action="login.php" method="post">
+			<form action="register.php" method="post">
 				用户名：<input type="text" name="name"><br>
 				密码：<input type="password" name="password"><br>
 				<input type="submit">
@@ -39,15 +38,42 @@
 				die('连接失败: ' . $conn->connect_error);
 			}
 
-			$sql = 'SELECT * FROM user WHERE name=' . $_POST["name"] . ' AND password=' . $_POST["password"];
+			$sql = 'SELECT * FROM user WHERE name=' . $_POST["name"];
 			$result = $conn->query($sql);
 			$row = $result->fetch_row();
 			if ($row) {
-				$_SESSION['name']=$row[1];
-				$_SESSION['password']=$row[2];
-				header('Location: http://192.168.1.6/blog/index-1.php');
+				echo "用户名已存在";
+				?>
+				<form action="register.php" method="post">
+					用户名：<input type="text" name="name"><br>
+					密码：<input type="password" name="password"><br>
+					<input type="submit">
+					<input type="reset">
+				</form>
+				<?php
 			} else {
-				echo "用户名或密码不正确";
+				ini_set('display_errors', 'On');
+				$servername = 'localhost';
+				$username = 'root';
+				$password = '@Passw0rd';
+				$dbname = 'blog';
+				// 创建连接
+				$conn = new mysqli($servername, $username, $password, $dbname);
+				// Check connection
+				if ($conn->connect_error) {
+					die('连接失败: ' . $conn->connect_error);
+				}
+
+				$sql = "INSERT INTO user (name,password) VALUES ('" . $_POST["name"] . "','" . $_POST["password"] . "')";
+
+				if ($conn->query($sql) === TRUE) {
+					echo $id = $conn->insert_id;
+					echo "新记录插入成功";
+				} else {
+					echo "Error: " . $sql . "<br>" . $conn->error;
+				}
+
+				$conn->close();
 			}
 		}
 		?>
